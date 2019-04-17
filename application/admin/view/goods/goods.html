@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>小书店</title>
+
+    <link href="__ADMIN__/css/icon.css" rel="stylesheet">
+    <link href="__ADMIN__/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__ADMIN__/css/templatemo-style.css" rel="stylesheet">
+    <link href="__ADMIN__/layui/css/layui.css" rel="stylesheet">
+    <script src="__ADMIN__/js/jquery-1.11.2.min.js"></script>
+    <link href="__ADMIN__/css/goods.css" rel="stylesheet">
+    <script src="__ADMIN__/js/goods.js"></script>
+</head>
+<body>
+<div class="templatemo-flex-row">
+    {include file="public/sidebar"/}
+    <div class="templatemo-content col-1 light-gray-bg">
+        <div class="templatemo-content-container">
+            <div class="layui-tab layui-tab-card">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">查看商品</li>
+                    <li>添加商品</li>
+                    <li>删除商品</li>
+                    <li>修改商品</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        {include file="public/search"/}
+                        <div id="goods_query"></div>
+                        <div id="goods_list"></div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <form action="{:url('Goods/goods','type=2')}" method="post">
+                            <table border="1">
+                                <tr>
+                                    <td rowspan="2" class='goodsImg'><input type="file" name="goods_img"></td>
+                                    <td class='goods_name'><input type="text" name="goods_name" placeholder="书名"></td>
+                                </tr>
+                                <tr>
+                                    <td class="addSelect">
+                                        <img src="__ADMIN__/images/label/add.gif">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">
+                        <form action="{:url('Goods/goods','type=2')}" method="post">
+                            <div id="goods_del"></div>
+                            <div><input type="checkbox" class="AllCB">全选</div>
+                            <div id="goods_del_list"></div>
+                            <input type="submit" value="删除选中" class="delSubmit">
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">4</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__ADMIN__/layui/layui.js"></script>
+<script>
+    layui.use('element', function(){
+        var $ = layui.jquery
+                ,element = layui.element;
+        $('.site-demo-active').on('click', function(){
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
+    });
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+                ,layer = layui.layer;
+        var data = {$goods_list};
+        laypage.render({
+            elem: 'goods_query'
+            ,count: data.length
+            ,layout:['count','prev','page','next','limit','refresh','skip']
+            ,limit:5
+            ,limits:[3,5,7,8,10]
+            ,jump: function(obj){
+                document.getElementById('goods_list').innerHTML = Query_list(obj,data,"__ADMIN__/images/goods/");
+            }
+        });
+        laypage.render({
+            elem:'goods_del'
+            ,count: data.length
+            ,layout:['count','prev','page','next','limit','refresh','skip']
+            ,limit:3
+            ,limits:[3,5,7,8,10]
+            ,jump: function(obj){
+                document.getElementById('goods_del_list').innerHTML=Del_list(obj,data,"__ADMIN__/images/goods/");
+            }
+        });
+    });
+    $(document).ready(function (){
+        Add_list(dealData({$label_list}));
+        addChange(dealData({$label_list}));
+    })
+</script>
+</body>
+</html>

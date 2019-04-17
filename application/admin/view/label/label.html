@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>小书店</title>
+    <link href="__ADMIN__/css/icon.css" rel="stylesheet">
+    <link href="__ADMIN__/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__ADMIN__/css/templatemo-style.css" rel="stylesheet">
+    <link href="__ADMIN__/layui/css/layui.css" rel="stylesheet">
+    <link href="__ADMIN__/css/label.css" rel="stylesheet">
+    <script src="__ADMIN__/js/jquery-1.11.2.min.js"></script>
+    <script src="__ADMIN__/js/label.js"></script>
+</head>
+<body>
+<div class="templatemo-flex-row">
+    {include file="public/sidebar"/}
+    <div class="templatemo-content col-1 light-gray-bg">
+        <div class="templatemo-content-container">
+            <div class="layui-tab layui-tab-card">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" lay-id="1">查看标签</li>
+                    <li lay-id="2">增加标签</li>
+                    <li lay-id="3">删除标签</li>
+                    <li lay-id="4">修改标签</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        {foreach $primary as $key_pri => $pri}
+                        <div class="primaryNav">
+                            <div class="primaryNavName" onclick="discussions(this,true)">{$pri.label_name}</div>
+                            {foreach $secondary as $key_sec => $sec}
+                            {if $sec.label_parent==$pri.label_id}
+                            <div class="secondaryNav">
+                                <div class="secondaryNavName" onclick="discussions(this,false)">{$sec.label_name}</div>
+                                {foreach $triple as $key_tri => $tri}
+                                {if $tri.label_parent==$sec.label_id}
+                                <div class="tripleNav">{$tri.label_name}</div>
+                                {/if}
+                                {/foreach}
+                            </div>
+                            {/if}
+                            {/foreach}
+                        </div>
+                        {/foreach}
+                    </div>
+                    <div class="layui-tab-item">
+                        {foreach $primary as $key_pri => $pri}
+                        <div class="primaryNav" id="{$pri.label_id}">
+                            <div class="primaryNavName" onclick="discussions(this,true)">{$pri.label_name}</div>
+                            {foreach $secondary as $key_sec => $sec}
+                            {if $sec.label_parent==$pri.label_id}
+                            <div class="secondaryNav" id="{$sec.label_id}">
+                                <div class="secondaryNavName" onclick="discussions(this,false)">{$sec.label_name}</div>
+                                {foreach $triple as $key_tri => $tri}
+                                {if $tri.label_parent==$sec.label_id}
+                                <div class="tripleNav" id="{$tri.label_id}">{$tri.label_name}</div>
+                                {/if}
+                                {/foreach}
+                                <img src="__ADMIN__/images/label/add.gif" class="triAdd" onclick="addLabel(this,3);">
+                            </div>
+                            {/if}
+                            {/foreach}
+                            <img src="__ADMIN__/images/label/add.gif" class="secAdd" onclick="addLabel(this,2);">
+                        </div>
+                        {/foreach}
+                        <img src="__ADMIN__/images/label/add.gif" class="priAdd" onclick="addLabel(this,1);">
+                        <form class="addForm" action="{:url('Label/label','type=2')}" method="post">
+                            <input type="submit" value="添加" class="addSubmit">
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">
+                        <form class="delForm" action="{:url('Label/label','type=3')}" method="post">
+                            <div>
+                                {foreach $primary as $key_pri => $pri}
+                                <div class="primaryNav">
+                                    <div class="primaryNavName" onclick="discussions(this,true)"><input name="primary[]" value="{$pri.label_id}" type="checkbox" class="delCB">{$pri.label_name}</div>
+                                    {foreach $secondary as $key_sec => $sec}
+                                    {if $sec.label_parent==$pri.label_id}
+                                    <div class="secondaryNav">
+                                        <div class="secondaryNavName" onclick="discussions(this,false)"><input name="secondary[]" value="{$sec.label_id}" type="checkbox" class="delCB">{$sec.label_name}</div>
+                                        {foreach $triple as $key_tri => $tri}
+                                        {if $tri.label_parent==$sec.label_id}
+                                        <div class="tripleNav"><input name="triple[]" value="{$tri.label_id}" type="checkbox" class="delCB">{$tri.label_name}</div>
+                                        {/if}
+                                        {/foreach}
+                                    </div>
+                                    {/if}
+                                    {/foreach}
+                                </div>
+                                {/foreach}
+                            </div>
+                            <input type="submit" value="删除" class="delSubmit">
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div>
+                            {foreach $primary as $key_pri => $pri}
+                            <div class="primaryNav">
+                                <div class="primaryNavName" onclick="discussions(this,true)"><img src="__ADMIN__/images/label/update.png" data-label="{$pri.label_id}" onclick="updName(this);" class="updImg">{$pri.label_name}</div>
+                                {foreach $secondary as $key_sec => $sec}
+                                {if $sec.label_parent==$pri.label_id}
+                                <div class="secondaryNav">
+                                    <div class="secondaryNavName" onclick="discussions(this,false)"><img src="__ADMIN__/images/label/update.png" data-label="{$sec.label_id}" onclick="updName(this);" class="updImg">{$sec.label_name}</div>
+                                    {foreach $triple as $key_tri => $tri}
+                                    {if $tri.label_parent==$sec.label_id}
+                                    <div class="tripleNav"><img src="__ADMIN__/images/label/update.png" data-label="{$tri.label_id}" onclick="updName(this);" class="updImg">{$tri.label_name}</div>
+                                    {/if}
+                                    {/foreach}
+                                </div>
+                                {/if}
+                                {/foreach}
+                            </div>
+                            {/foreach}
+                        </div>
+                        <form class="updForm" action="{:url('Label/label','type=4')}" method="post">
+                            <input type="submit" value="修改" class="updSubmit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__ADMIN__/layui/layui.js"></script>
+<script>
+    layui.use('element', function(){
+        var $ = layui.jquery
+                ,element = layui.element;
+        $('.site-demo-active').on('click', function(){
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
+    });
+</script>
+</body>
+</html>

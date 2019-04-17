@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>小书店</title>
+    <link href="__ADMIN__/css/icon.css" rel="stylesheet">
+    <link href="__ADMIN__/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__ADMIN__/css/activity.css" rel="stylesheet">
+    <link href="__ADMIN__/css/templatemo-style.css" rel="stylesheet">
+    <link href="__ADMIN__/layui/css/layui.css" rel="stylesheet">
+    <script src="__ADMIN__/js/jquery-1.11.2.min.js"></script>
+    <script src="__ADMIN__/js/activity.js"></script>
+</head>
+<body>
+<div class="templatemo-flex-row">
+    {include file="public/sidebar"/}
+    <div class="templatemo-content col-1 light-gray-bg">
+        <div class="templatemo-content-container">
+            <div class="layui-tab layui-tab-card">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">查看活动</li>
+                    <li>删除活动</li>
+                    <li>修改活动</li>
+                    <li>增加活动</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        {include file='public/search'/}
+                        <div id="activity_query"></div>
+                        <div id="activity_list"></div>
+                    </div>
+                    <div class="layui-tab-item">2</div>
+                    <div class="layui-tab-item">3</div>
+                    <div class="layui-tab-item">4</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__ADMIN__/layui/layui.js"></script>
+<script>
+    layui.use('element', function(){
+        var $ = layui.jquery
+                ,element = layui.element;
+        $('.site-demo-active').on('click', function(){
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
+    });
+
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+                ,layer = layui.layer;
+        var data = {$activity};
+        laypage.render({
+            elem: 'activity_query'
+            ,count: data.length
+            ,layout:['count','prev','page','next','limit','refresh','skip']
+            ,limit:10
+            ,limits:[10,20,40,60,80,100]
+            ,jump: function(obj){
+                document.getElementById('activity_list').innerHTML = function(){
+                    var arr = []
+                            ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        arr.push("<div class='activityItem'>" +
+                                "<div class='activityName' onclick='details(this)'>"+item['activity_name']+"</div>"+
+                                "<div class='activityContent'>" +
+                                "<table>"+
+                                "<tr>"+
+                                    "<td></td>"+
+                                    "<td><img src='__ADMIN__/images/activity/"+item['activity_pic_local']+"'></td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td>活动时间：</td>"+
+                                    "<td>"+item['activity_start_time']+" ~ "+ item['activity_end_time']+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td>用户类型：</td>"+
+                                    "<td>"+item['activity_user_group']+"</td>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<td>产品：</td>"+
+                                    "<td>"+item['activity_product']+"</td>"+
+                                "</tr>"+
+                                "</table>"+
+                                "</div>"+
+                                "</div>");
+                    });
+                    return arr.join('');
+                }();
+            }
+        });
+    });
+</script>
+</body>
+</html>

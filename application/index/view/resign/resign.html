@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/public.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/xcConfirm.css">
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/resign/step.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/resign/resign.css">
+
+</head>
+
+<body>
+<div class="logo">
+    <a href="#">
+        <img src="images/carousel/a4.png">
+    </a>
+</div>
+<div class="content">
+    <div class="resign">
+
+            <div class="eis-stepContents">
+                <div class="eis-stepContent">
+                    <div class="resignRow">
+                        <label>手机号码：</label>
+                        <input id="getUserId" class="inputText" type="text">
+                        <a id="getCode" href="javascript:;" class="getCode">
+                            发送验证码
+                        </a>
+                        <span id="getUserIdTip" class="getUserIdTip"></span>
+                    </div>
+                    <div class="resignRow">
+                        <label>验证码：</label>
+                        <input id="showCode" class="inputText" type="text">
+                        <span id="showCodeTip" class="getUserIdTip showCodeTip"></span>
+                    </div>
+                </div>
+                <div class="eis-stepContent">
+                    <div class="resignRow">
+                        <label>密码：</label>
+                        <input id="userPassword" class="inputText" type="password">
+                    </div>
+                    <div class="resignRow">
+                        <label>确认密码：</label>
+                        <input id="userRePassword" class="inputText" type="password">
+                        <span id="showRePasswordTip" class="getUserIdTip showCodeTip"></span>
+                    </div>
+                </div>
+                <div class="eis-stepContent">
+                    <div class="resignRow">
+                        <label>昵称：</label>
+                        <input id="nickname" class="inputText" type="text">
+                    </div>
+                </div>
+                <div class="eis-stepContent">
+                    <div class="resignRow">
+                        <label>收货人：</label>
+                        <input id="consignee" class="inputText" type="text">
+                    </div>
+                    <div class="resignRow">
+                        <label>手机号码：</label>
+                        <input id="consigneePhone" class="inputText" type="text">
+                        <span id="showConsigneePhoneTip" class="getUserIdTip showCodeTip"></span>
+                    </div>
+                    <div class="resignRow">
+                        <label>收货地址：</label>
+                        <textarea id="address"></textarea>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="__INDEX__/js/public/jquery.min.js"></script>
+<script type="text/javascript" src="__INDEX__/js/resign/step.js"></script>
+<!--<script type="text/javascript" src="__INDEX__/js/resign/temp.js"></script>-->
+<script>
+
+    $(function(){
+        $('.resign').step({
+            stepDirection:'y',
+            showStepButton:true,
+            stepCount:4,
+            stepTitles:['手机号码','密码','昵称','收货信息']
+        });
+    });
+    var user_id_state = false;
+    var timed = 61;
+    var times = timed;
+    var timer = null;
+    var code = "";
+    var codeNum = 6;
+    var tempPhone;
+    function resend(){
+        times -- ;
+        timer = setInterval(function(){
+            if(times <= 0 || times == timed){
+                document.querySelector("#getCode").innerHTML = "发送验证码";
+                clearInterval(timer);
+                times = timed;
+            }else {
+                times -- ;
+                document.querySelector("#getCode").innerHTML = times+"秒后重试";
+            }
+            //console.log(times);
+        },1000);
+    }
+    function getCode(){
+        code = "";
+        var sourceNum = "0123456789";
+        for(var i=0 ; i<codeNum ; i++){
+            var charIndex = Math.floor(Math.random()*(sourceNum.length-1));
+            code += sourceNum.charAt(charIndex);
+        }
+    }
+    document.querySelector("#getUserId").onblur = function(){
+        //alert(this.value);
+        if(this.value.length == 11){
+            $.ajax({
+                type:"POST",
+                data:{"user_id":this.value},
+                url:"{:url('Resign/check_user_id')}",
+                success:function(data){
+                    //console.log(data);
+                    user_id_state = data;
+                    if(user_id_state){
+                        document.querySelector("#getUserIdTip").innerHTML = "*&nbsp;该手机号码已注册";
+                    }else{
+                        document.querySelector("#getUserIdTip").innerHTML = "";
+                    }
+                },
+                error:function(){
+                    alert("查询数据库用户手机号 ajax 未成功");
+                }
+            });
+        }else{
+            document.querySelector("#getUserIdTip").innerHTML = "*&nbsp;手机号码为 11 位";
+        }
+    };
+    document.querySelector("#getCode").onclick = function(){
+        if(document.querySelector("#getUserId").value.length == 11){
+            if(user_id_state){
+                alert("该手机号码已注册！");
+            }else{
+                if(times == timed){
+                    getCode();
+                    //console.log(code);
+                    var GetUserId = document.querySelector("#getUserId").value;
+                    tempPhone = GetUserId;
+                    $.ajax({
+                        type:"POST",
+                        data:{"phone":GetUserId,"code":code},
+                        url:"{:url('Resign/sendPhoneCode')}",
+                        success:function(data){
+                            if(data){
+                                alert("验证码已成功发送！");
+                            }else{
+                                alert("failure");
+                            }
+                        },
+                        error:function(){
+                            alert("发验证码 ajax 未成功");
+                        }
+                    });
+                    resend();
+                }else{
+                    alert("请您"+times+"秒后重试！");
+                }
+            }
+        }else{
+            alert("输入的手机号不符合规范！");
+        }
+    };
+    document.querySelector("#showCode").onblur = function(){
+        if(this.value.length == codeNum){
+            if(this.value == code){
+                document.querySelector("#showCodeTip").innerHTML = "";
+            }else{
+                document.querySelector("#showCodeTip").innerHTML = "*&nbsp;验证码不正确";
+            }
+        }else{
+            document.querySelector("#showCodeTip").innerHTML = "*&nbsp;验证码为&nbsp;6&nbsp;位数字";
+        }
+    };
+    document.querySelector("#userRePassword").onblur = function(){
+        if(this.value == document.querySelector("#userPassword").value){
+            document.querySelector("#showRePasswordTip").innerHTML = "";
+        }else{
+            document.querySelector("#showRePasswordTip").innerHTML = "*&nbsp;两次密码不一致";
+        }
+    };
+    document.querySelector("#userPassword").onblur = function(){
+        if(this.value == document.querySelector("#userRePassword").value){
+            document.querySelector("#showRePasswordTip").innerHTML = "";
+        }
+    };
+    document.querySelector("#consigneePhone").onblur = function(){
+        if(this.value.length == 11){
+            document.querySelector("#showConsigneePhoneTip").innerHTML = "";
+        }else{
+            document.querySelector("#showConsigneePhoneTip").innerHTML = "*&nbsp;手机号码为 11 位";
+        }
+    };
+    function ResignSubmit(){
+        var getUserId = document.querySelector("#getUserId").value;
+        var showCode = document.querySelector("#showCode").value;
+        var userPassword = document.querySelector("#userPassword").value;
+        var nickname = document.querySelector("#nickname").value;
+        var consignee = document.querySelector("#consignee").value;
+        var consigneePhone = document.querySelector("#consigneePhone").value;
+        var address = document.querySelector("#address").value;
+
+        if(getUserId == "" || showCode == "" || userPassword == "" || nickname =="" || consignee =="" || consigneePhone == "" || address == "") {
+            alert("注册信息未填完整！");
+        }else{
+            if(getUserId.length == 11 && consigneePhone.length == 11){
+                if(tempPhone == document.querySelector("#getUserId").value){
+                    if(showCode == code){
+                        $.ajax({
+                            type:"POST",
+                            data:{"userId":getUserId,"password":userPassword,"nickname":nickname,"consignee":consignee,"consigneePhone":consigneePhone,"address":address},
+                            url:"{:url('Resign/insertUser')}",
+                            success:function(data){
+                                if(data){
+                                    alert("注册成功！\n即将转跳至登录页面！");
+                                    window.location.href = "http://localhost:88/LittleBookshops/public/index/login/login";
+                                }else{
+                                    alert("注册失败！");
+                                }
+                            },
+                            error:function(){
+                                alert("注册时 ajax 出错！");
+                            }
+                        });
+                    }else{
+                        alert("验证码输入错误，请重新输入验证码！");
+                    }
+                }else{
+                    alert("注册手机号已被修改，请重新发送验证码！");
+                }
+            }else{
+                alert("输入的手机号不符合规范！");
+            }
+        }
+
+    }
+
+
+</script>
+
+</body>
+</html>

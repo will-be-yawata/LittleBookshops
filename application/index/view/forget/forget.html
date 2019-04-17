@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <link  rel="stylesheet" type="text/css" href="css/public/public.css">
+
+    <link  rel="stylesheet" type="text/css" href="css/resign/step.css">
+    <link  rel="stylesheet" type="text/css" href="css/resign/resign.css">
+
+</head>
+
+<body>
+<div class="logo">
+    <a href="#">
+        <img src="images/carousel/a4.png">
+    </a>
+</div>
+<div class="content">
+    <div class="resign">
+        <form>
+            <div class="eis-stepContents">
+                <div class="eis-stepContent">
+                    <div class="resignRow">
+                        <label>手机号码：</label>
+                        <input class="inputText" type="text">
+                        <a  href="#" class="getCode">
+                            发送验证码
+                        </a>
+                    </div>
+                    <div class="resignRow">
+                        <label>验证码：</label>
+                        <input class="inputText" type="text">
+                    </div>
+                </div>
+                <div class="eis-stepContent">
+                    <div class="resignRow">
+                        <label>密码：</label>
+                        <input class="inputText" type="text">
+                    </div>
+                    <div class="resignRow">
+                        <label>确认密码：</label>
+                        <input class="inputText" type="text">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="js/public/jquery.min.js"></script>
+<script type="text/javascript" src="js/resign/step.js"></script>
+<script>
+    $(function(){
+        $('.resign').step({
+            stepDirection:'y',
+            showStepButton:true,
+            stepCount:2,
+            stepTitles:['手机号码','重置密码'],
+        });
+    })
+</script>
+
+</body>
+</html>
