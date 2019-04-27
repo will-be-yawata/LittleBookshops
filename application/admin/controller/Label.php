@@ -10,6 +10,11 @@ class Label extends Controller{
         echo (new ActiveCss())->shift("label");
         $admin=new Admin();
         if(!$admin->check_login()) return view("Login/login");
+        if($type==1){//查询
+            if(request()->isPost()){
+
+            }
+        }
         if($type==2){//添加
             if(request()->isPost()){
                 $addData=input('post.');

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>小书店</title>
+
+    <link href="__ADMIN__/css/icon.css" rel="stylesheet">
+    <link href="__ADMIN__/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__ADMIN__/css/templatemo-style.css" rel="stylesheet">
+    <link href="__ADMIN__/css/buffer.css" rel="stylesheet">
+    <script src="__ADMIN__/js/jquery-1.11.2.min.js"></script>
+    <script src="__ADMIN__/js/buffer.js"></script>
+</head>
+<body>
+<div class="templatemo-flex-row">
+    {include file="public/sidebar"/}
+    <div class="templatemo-content col-1 light-gray-bg">
+        <div class="templatemo-content-container">
+            <div class="redis">“刷新”按钮是对首页的内容进行重新缓存<hr>
+                注意:若点击该按钮则会将首页之前的缓存删除，然后再重新对首页进行缓存。重新缓存后的第一次访问首页大概需要半分钟的数据缓存<hr>
+                <button onclick="redis()" class="redis_btn">刷新</button></div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function get_url(){
+        return "{:url('Buffer/rm_redis')}";
+    }
+</script>
+</html>

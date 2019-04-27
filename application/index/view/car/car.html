@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小书店</title>
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/public.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/header.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/nav.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/footer.css">
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/car/car.css">
+
+
+    <script src="__INDEX__/js/public/jquery.min.js"></script>
+    <script src="__INDEX__/js/index/sHover.min.js"></script>
+
+</head>
+<body>
+
+
+{include file="public/header"/}
+{include file="public/nav"/}
+
+<div class="content">
+    <div class="carTab">
+        <i class="iconfont">&#xe8e8;</i>
+        我的购物车
+    </div>
+    <div class="car">
+        <div class="carThead">
+            <div class="carPro">
+                商品
+            </div>
+            <div class="carPrice">
+                单价
+            </div>
+            <div class="carNum">
+                数量
+            </div>
+            <div class="carAmount">
+                金额
+            </div>
+            <div class="carOperation">
+                操作
+            </div>
+        </div>
+        <div class="carCheckAll">
+            <input onclick="checkAll(this)" type="checkbox">
+            <span class="carCheckAllText">全选</span>
+        </div>
+        <div class="carGroup">
+            {foreach $car as $data}
+            <div class="carRow" id="{$data['car_id']}">
+                <div class="carCheck">
+                    <input name="item[]" value="{$data['car_id']}" type="checkbox" onclick="checkOne()">
+                </div>
+                <div class="carPro">
+                    <a href="{:url('Goodsdetail/goodsdetail',['goods_id'=>$data['goods_id']])}">
+                        <div class="proImg">
+                            <img src="__ADMIN__/images/goods/{$data['goods']['goods_img']}">
+                        </div>
+                        <div class="proName">
+                            {$data['goods']['goods_name']}
+                        </div>
+                    </a>
+                </div>
+                <div class="carPrice">
+                    ￥ {$data['goods']['goods_current_price']}
+                </div>
+                <div class="carNum">
+                    <span class="carNumAction">
+                        <a  href="javascript:detailMinus({$data['car_id']},{$data['goods']['goods_id']});" class="iconfont btnReduce" title="减少">&#xe972;</a>
+                        <input id="goods-{$data['goods_id']}"   onblur="detailinput({$data['car_id']},{$data['goods']['goods_id']});"  class="carNumInput" type="text" value="{$data['goods_num']}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                        <a   href="javascript:detailAdd({$data['car_id']},{$data['goods']['goods_id']});" class="iconfont btnAdd" title="增加">&#xe971;</a>
+                    </span>
+                </div>
+                <div class="carAmount" id="goodssum-{$data['goods_id']}">
+                    ￥ {$data['goods_sum']}
+                </div>
+                <div class="carOperation">
+                    <a href="javascript:cardel({$data['car_id']});" class="carDelete">
+                        删除
+                    </a>
+                </div>
+            </div>
+            {/foreach}
+        </div>
+        <div class="carfoot">
+            <div class="carSummary">
+                <div class="carDeleteCheck">
+                    <a href="javascript:del_check();">删除所选商品</a>
+                </div>
+                <div class="carBrief">
+                    <div class="carSum">
+                        <div class="carSumLabel">
+                            商品数量
+                        </div>
+                        <div id="carCount" class="carSumLabel">
+                            0
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carCount">
+                <div class="carBalance">
+                    <div class="carBalanceLabel">
+                        合计
+                    </div>
+                    <div id="carSum" class="carBalanceNum">
+                        ￥ 0.00
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="carWarp">
+        <a href="javascript:window.history.go(-1);;" class="carBack">
+            <i class="iconfont">&#xe71c;</i>
+            继续购物
+        </a>
+        <a href="javascript:carSubmit();" class="carEnd">
+            <span class="carEndSpan">结算</span>
+        </a>
+    </div>
+</div>
+
+{include file="public/footer" /}
+
+</body>
+<script src="__INDEX__/js/public/header.js"></script>
+<script src="__INDEX__/js/car/car.js"></script>
+
+</html>

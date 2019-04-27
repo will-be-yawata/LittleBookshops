@@ -1,0 +1,68 @@
+<table border="1" class="delete_table">
+    {volist name='list' id='list'}
+    <tr data-id="{$list.goods_id}">
+        <td rowspan="8"><img class="delete_img" src="__ADMIN__/images/goods/{$list.goods_img}"></td>
+        <td colspan="2">书名:{$list.goods_name}</td>
+        <td>关于作者</td>
+        <td>关于本书</td>
+        <td>本书目录</td>
+        <td rowspan="8" class="delete_close" onclick="delete_close(this)" data-id="{$list.goods_id}">X</td>
+    </tr>
+    <tr data-id="{$list.goods_id}">
+        <td colspan="2">作者:{$list.goods_author}</td>
+        <td rowspan="7"><textarea class="delete_text" id="a{$list.goods_id}">{$list.goods_about_author}</textarea></td>
+        <td rowspan="7"><textarea class="delete_text" id="b{$list.goods_id}">{$list.goods_about_book}</textarea></td>
+        <td rowspan="7"><textarea class="delete_text" id="d{$list.goods_id}">{$list.goods_directory}</textarea></td>
+        <script type="text/javascript">
+            $(function(){
+                UE.getEditor("a{$list.goods_id}", {
+                    initialFrameHeight:162,
+                    initialFrameWidth:200,
+                    readonly :true,
+                    wordCount:false
+                });
+                UE.getEditor("b{$list.goods_id}", {
+                    initialFrameHeight:162,
+                    initialFrameWidth:200,
+                    readonly : true,
+                    wordCount:false
+                });
+                UE.getEditor("d{$list.goods_id}", {
+                    initialFrameHeight:162,
+                    initialFrameWidth:200,
+                    readonly : true,
+                    wordCount:false
+                });
+            });
+        </script>
+    </tr>
+    <tr data-id="{$list.goods_id}">
+        <td colspan="2">出版社:{$list.goods_press}</td>
+    </tr>
+    <tr data-id="{$list.goods_id}">
+        <td colspan="2">ISBN:{$list.goods_isbn}</td>
+    </tr>
+    <tr data-id="{$list.goods_id}">
+        <td>原价:{$list.goods_original_price}</td>
+        <td>现价:{$list.goods_current_price}</td>
+    </tr>
+    <tr data-id="{$list.goods_id}">
+        <td colspan="2">分类:{$list.label_name}</td>
+    </tr>
+    <tr data-id="{$list.goods_id}">
+        <td colspan="2">上架时间:{$list.goods_createtime}</td>
+    </tr>
+    <tr data-id="{$list.goods_id}">
+        <td colspan="2">最近更新:{$list.goods_updatatime}</td>
+    </tr>
+    {/volist}
+</table>
+{$page}
+<script>
+    function get_delete_url(){
+        return "{:url('Goods/delete_ajax')}";
+    }
+    $(function(){
+        $($(".goods_barHeader>li")[2]).attr("class","goods_active");
+    })
+</script>

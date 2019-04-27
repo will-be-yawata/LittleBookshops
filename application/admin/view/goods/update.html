@@ -1,0 +1,93 @@
+    <table border="1" class="update_table">
+        {volist name='list' id='list'}
+        <form class="updateForm{$list.goods_id}">
+        <tr>
+            <td rowspan="6">
+                <div class="update_img" style="background-image:url(__ADMIN__/images/goods/{$list.goods_img});">
+                    <input type="file" accept="image/*" name="goods_img" class="update_goods_img">
+                </div>
+            </td>
+            <td colspan="2">书名:<input type="text" name="goods_name" value="{$list.goods_name}"></td>
+            <td>关于作者</td>
+            <td>关于本书</td>
+            <td>本书目录</td>
+            <td rowspan="6" data-id="{$list.goods_id}"><input type="submit" data-id="{$list.goods_id}" class="updateBtn" onclick="return updateBtn(this);" value="更改"></td>
+        </tr>
+        <tr>
+            <td colspan="2">作者:<input type="text" name="goods_author" value="{$list.goods_author}"></td>
+            <td rowspan="5">
+                <textarea id="a{$list.goods_id}" class="update_text">{$list.goods_about_author}</textarea>
+            </td>
+            <td rowspan="5">
+                <textarea id="b{$list.goods_id}" class="update_text">{$list.goods_about_book}</textarea>
+            </td>
+            <td rowspan="5">
+                <textarea id="d{$list.goods_id}" class="update_text">{$list.goods_directory}</textarea>
+            </td>
+            <script type="text/javascript">
+                $(function(){
+                    UE.getEditor("a{$list.goods_id}", {
+                        initialFrameHeight:140,
+                        initialFrameWidth:200
+                    });
+                    UE.getEditor("b{$list.goods_id}", {
+                        initialFrameHeight:140,
+                        initialFrameWidth:200
+                    });
+                    UE.getEditor("d{$list.goods_id}", {
+                        initialFrameHeight:140,
+                        initialFrameWidth:200
+                    });
+
+                });
+            </script>
+        </tr>
+        <tr>
+            <td colspan="2">出版社:<input type="text" name="goods_press" value="{$list.goods_press}"></td>
+        </tr>
+        <tr>
+            <td colspan="2">ISBN:<input type="text" name="goods_isbn" value="{$list.goods_isbn}"></td>
+        </tr>
+        <tr>
+            <td>原价:<input type="text" name="goods_original_price"  value="{$list.goods_original_price}" class="updatePrice"></td>
+            <td>现价:<input type="text" name="goods_current_price" value="{$list.goods_current_price}" class="updatePrice"></td>
+        </tr>
+        <tr>
+            <td colspan="2">分类:
+                <select name="goods_label">
+                    {foreach $label as $k => $v}
+                    <option value="{$v.label_id}" {$list.goods_label == $v.label_id ? "selected":""}>
+                        {$v.label_name}
+                    </option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>
+            </form>
+        {/volist}
+    </table>
+    {$page}
+<script>
+    var update_img=$(".update_img");
+    var update_goods_img=$(".update_goods_img");
+    update_goods_img.on("change",function (){
+       var file=this.files[0];
+        if(file.type.indexOf("image")==0){
+            var that=$(this)[0];
+            var reader=new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload=function(e){
+                var newUrl=this.result;
+                that.parentNode.style.backgroundImage='url(' + newUrl + ')';
+            }
+        }
+    });
+    function get_update_url(){
+        return "{:url('Goods/update_ajax')}";
+    }
+    $(function(){
+        $($(".goods_barHeader>li")[3]).attr("class","goods_active");
+    });
+
+
+</script>

@@ -21,7 +21,7 @@ class Admin extends Model{
         if(isset($_SESSION['admin_name'])&&isset($_SESSION['admin_password'])) {
             $isLogin=$this->login(['admin_name'=>$_SESSION['admin_name'],'admin_password'=>$_SESSION['admin_password']]);
             if($isLogin==3){
-                echo "<script>alert('用户名错误！');</script>";
+                echo "<script>alert('用户不存在！');</script>";
                 return false;
             }else if($isLogin==2){
                 echo "<script>alert('密码错误！');</script>";

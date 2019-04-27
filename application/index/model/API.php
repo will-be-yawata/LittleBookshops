@@ -27,6 +27,37 @@ class API{
         //echo "\r\n";
         return $result->showapi_res_code;
     }
+    public function isbn_getbookinfo($isbn){
+        $paramArr = array(
+            'showapi_appid'=> $this->api_appid,
+            'isbn'=> $isbn
+        );
+        $param = $this->createParam($paramArr,$this->api_secret);
+        $url = 'http://route.showapi.com/1626-1?'.$param;
+        //echo "请求的url:".$url."\r\n";
+        $result = file_get_contents($url);
+        //echo "返回的json数据:\r\n";
+        //print $result.'\r\n';
+        $result = json_decode($result);
+        //echo "\r\n取出showapi_res_code的值:\r\n";
+        //print_r($result->showapi_res_code);
+        //echo "\r\n";
+        return $result;
+    }
+    public function exp_order($mailNo){
+        $paramArr = array(
+            'showapi_appid'=> $this->api_appid,
+            'com'=> "yunda",
+            'nu'=> $mailNo,
+            //'senderPhone'=> "",
+            //'receiverPhone'=> ""
+        );
+        $param = $this->createParam($paramArr,$this->api_secret);
+        $url = 'http://route.showapi.com/64-19?'.$param;
+        $result = file_get_contents($url);
+        $result = json_decode($result);
+        return (array)$result->showapi_res_body;
+    }
 
     //创建参数(包括签名的处理)
     public function createParam ($paramArr,$showapi_secret) {

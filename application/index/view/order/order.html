@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小书店</title>
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/public.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/header.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/nav.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/footer.css">
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/order/order.css">
+
+
+    <script src="__INDEX__/js/public/jquery.min.js"></script>
+    <script src="__INDEX__/js/index/sHover.min.js"></script>
+
+
+</head>
+<body>
+
+
+{include file="public/header"/}
+{include file="public/nav"/}
+
+<div class="content">
+    <div class="orderTitle">
+        <i class="iconfont">&#xe728;</i>
+        订单信息
+    </div>
+    <div class="orderState">
+        <div class="stateIcon">
+            <i class="iconfont  orderStateOn">&#xe6f3;</i>
+            <div class="stateInfo">
+                <p>提交订单</p>
+                <p>{$orderinfo['order_createtime']}</p>
+            </div>
+        </div>
+        <div class="stateLine stateLineOn"></div>
+        <div class="stateIcon">
+            <i class="iconfont orderStateOn">&#xe811;</i>
+            <div class="stateInfo">
+                <p>付款成功</p>
+            </div>
+        </div>
+        <div class="stateLine  stateLineOn"></div>
+        <div class="stateIcon">
+            <i class="iconfont orderStateOn">&#xe88c;</i>
+            <div class="stateInfo">
+                <p>商品出库</p>
+                <p>{$orderinfo['order_deliverytime']}</p>
+            </div>
+        </div>
+        <div class="stateLine stateLineOn"></div>
+        <div class="stateIcon">
+            <i class="iconfont orderStateOn">&#xe642;</i>
+            <div class="stateInfo">
+                <p>等待收货</p>
+            </div>
+        </div>
+        <div class="stateLine stateLineOn"></div>
+        <div class="stateIcon">
+            <i class="iconfont orderStateOn">&#xe752;</i>
+            <div class="stateInfo">
+                <p>完成</p>
+                <p>{$orderinfo['order_completetime']}</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="orderInfo">
+        <div class="orderInfoBox">
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    收货人：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['order_gain_name']}
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    手机号码：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['order_gain_phone']}
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    收货地址：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['order_gain_address']}
+                </div>
+            </div>
+        </div>
+        <div class="orderInfoBox">
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    订单编号：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['order_id']}
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    订单状态：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['order_state']}
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    运送方式：
+                </div>
+                <div class="infoText">
+                    快递
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    创建时间：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['order_createtime']}
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    发货时间：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['order_deliverytime']}
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    成交时间：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['order_completetime']}
+                </div>
+            </div>
+        </div>
+        <div class="orderInfoBox">
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    发货方式：
+                </div>
+                <div class="infoText">
+                    快递
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    物流公司：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['exp']['expTextName']}
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    运单号码：
+                </div>
+                <div class="infoText">
+                    {$orderinfo['exp']['mailNo']}
+                </div>
+            </div>
+            <div class="orderInfoRow">
+                <div class="infoLabel">
+                    物流跟踪：
+                </div>
+                <div class="infoText">
+                    {foreach $orderinfo['exp']['data'] as $data}
+                        {$data->time}   {$data->context}<br>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="car">
+        <div class="carThead">
+            <div class="carPro">
+                商品
+            </div>
+            <div class="carPrice">
+                单价
+            </div>
+            <div class="carNum">
+                数量
+            </div>
+            <div class="carAmount">
+                金额
+            </div>
+            <div class="carOperation">
+                操作
+            </div>
+        </div>
+        <div class="carGroup">
+            {foreach $orderinfo['goods'] as $data}
+            <div class="carRow">
+                <div class="carPro">
+                    <a href="{:url('Goodsdetail/goodsdetail',['goods_id'=>$data['goods_id']])}">
+                        <div class="proImg">
+                            <img src="__ADMIN__/images/goods/{$data['goods_img']}">
+                        </div>
+                        <div class="proName">
+                            {$data['goods_name']}
+                        </div>
+                    </a>
+                </div>
+                <div class="carPrice">
+                    ￥ {$data['goods_current_price']}
+                </div>
+                <div class="carNum">
+                    {$data['goods_num']}
+                </div>
+                <div class="carAmount">
+                    ￥ {$data['goods_sum']}
+                </div>
+                <div class="carOperation">
+                    <a href="{:url('Goodsdetail/goodsdetail',['goods_id'=>$data['goods_id']])}" class="carDelete">
+                        查看商品
+                    </a>
+                </div>
+            </div>
+            {/foreach}
+        </div>
+        <div class="carfoot">
+            <div class="carSummary">
+                <div class="carBrief">
+                    <div class="carSum">
+                        <div class="carSumLabel">
+                            商品数量
+                        </div>
+                        <div class="carSumLabel">
+                            {$orderinfo['goods_num']}
+                        </div>
+                    </div>
+                    <div class="carSum">
+                        <div class="carSumLabel">
+                            商品总额
+                        </div>
+                        <div class="carSumLabel">
+                            ￥ {$orderinfo['order_sum']}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="carCount">
+                <div class="carBalance">
+                    <div class="carBalanceLabel">
+                        应付总额
+                    </div>
+                    <div class="carBalanceNum">
+                        ￥ {$orderinfo['order_sum']}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+{include file="public/footer" /}
+
+</body>
+<script src="__INDEX__/js/public/header.js"></script>
+<script src="__INDEX__/js/order/order.js"></script>
+
+</html>

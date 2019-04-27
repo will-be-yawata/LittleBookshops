@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>小书店</title>
 
     <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/public.css">
 
@@ -12,19 +12,19 @@
 <body>
 
 <div class="logo">
-    <a href="#">
-        <img src="images/carousel/a4.png">
+    <a href="{:url('Index/index')}">
+        <img src="__INDEX__/images/logo/logo.png">
     </a>
 </div>
 <div class="content">
     <div class="login">
         <div class="loginImg">
-            <a href="#">
-                <img src="images/login/login.jpg">
+            <a href="javascript:;">
+                <img src="__INDEX__/images/login/login.jpg">
             </a>
         </div>
         <div class="loginMain">
-            <form>
+
                 <div class="logoRow">
                     <label>
                         <i class="iconfont">&#xe6cb;</i>
@@ -35,7 +35,7 @@
                     <label>
                         <i class="iconfont">&#xea2f;</i>
                     </label>
-                    <input id="inoutPassword" class="inputText" type="text" placeholder="请输入密码">
+                    <input id="inoutPassword" class="inputText" type="password" placeholder="请输入密码">
                 </div>
                 <div class="logoRow logoSubmit">
                     <input id="loginSubmit" class="inputSubmit" type="submit" value="登录">
@@ -48,40 +48,13 @@
                         忘记密码
                     </a>
                 </div>
-            </form>
+
         </div>
     </div>
 </div>
 
 </body>
 <script type="text/javascript" src="__INDEX__/js/public/jquery.min.js"></script>
-<script>
-    var user_id_state;
-    document.querySelector("#inputUserId").onblur = function(){
-        if(this.value.length == 11){
-            $.ajax({
-                type:"POST",
-                data:{"user_id":this.value},
-                url:"{:url('Login/check_user_id')}",
-                success:function(data){
-                    //console.log(data);
-                    user_id_state = data;
-                    if(user_id_state){
-                        document.querySelector("#getUserIdTip").innerHTML = "*&nbsp;该手机号码已注册";
-                    }else{
-                        document.querySelector("#getUserIdTip").innerHTML = "";
-                    }
-                },
-                error:function(){
-                    alert("查询数据库用户手机号 ajax 未成功");
-                }
-            });
-        }else{
-            alert("输入的手机号不符合规范！");
-        }
-    };
-    document.querySelector("#loginSubmit").onclick = function(){
+<script type="text/javascript" src="__INDEX__/js/login/login.js"></script>
 
-    }
-</script>
 </html>

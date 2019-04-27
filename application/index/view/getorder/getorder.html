@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小书店</title>
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/public.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/header.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/nav.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/footer.css">
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/getOrder/getOrder.css">
+
+
+    <script src="__INDEX__/js/public/jquery.min.js"></script>
+    <script src="__INDEX__/js/index/sHover.min.js"></script>
+
+
+</head>
+<body>
+
+{include file="public/header"/}
+{include file="public/nav"/}
+
+
+<div class="content">
+    <div class="addressInfo">
+        <i class="iconfont">&#xe6f3;</i>
+        确认收货人信息
+    </div>
+    <div class="infoAll">
+
+            <div class="infoRow">
+                <label class="infoLabel">收货人：</label>
+                <input id="consignee" type="text" value="{$order_userinfo['user_name']}">
+            </div>
+            <div class="infoRow">
+                <label class="infoLabel">手机号码：</label>
+                <input id="consigneePhone" type="text" value="{$order_userinfo['user_phone']}">
+            </div>
+            <div class="infoRow">
+                <label class="infoLabel">收货地址：</label>
+                <textarea id="address">{$order_userinfo['user_address']}</textarea>
+            </div>
+            <div class="infoRow">
+                <input id="getorderSubmit"  class="infoSubmit" type="submit" value="确认付款">
+            </div>
+
+    </div>
+
+    <div class="car">
+        <div class="carThead">
+            <div class="carPro">
+                商品
+            </div>
+            <div class="carPrice">
+                单价
+            </div>
+            <div class="carNum">
+                数量
+            </div>
+            <div class="carAmount">
+                金额
+            </div>
+            <div class="carOperation">
+                操作
+            </div>
+        </div>
+        <div class="carGroup">
+            {foreach $order_carinfo['goods'] as $data}
+            <div class="carRow">
+                <div class="carPro">
+                    <a href="{:url('Goodsdetail/goodsdetail',['goods_id'=>$data['goods_id']])}">
+                        <div class="proImg">
+                            <img src="__ADMIN__/images/goods/{$data['goods_img']}">
+                        </div>
+                        <div class="proName">
+                            {$data['goods_name']}
+                        </div>
+                    </a>
+                </div>
+                <div class="carPrice">
+                    ￥ {$data['goods_current_price']}
+                </div>
+                <div class="carNum">
+                    {$data['goods_num']}
+                </div>
+                <div class="carAmount">
+                    ￥ {$data['goods_sum']}
+                </div>
+                <div class="carOperation">
+                    <a href="{:url('Goodsdetail/goodsdetail',['goods_id'=>$data['goods_id']])}" class="carDelete">
+                        查看商品
+                    </a>
+                </div>
+            </div>
+            {/foreach}
+        </div>
+        <div class="carfoot">
+            <div class="carSummary">
+                <div class="carBrief">
+                    <div class="carSum">
+                        <div class="carSumLabel">
+                            商品数量
+                        </div>
+                        <div class="carSumLabel">
+                            {$order_carinfo['num']}
+                        </div>
+                    </div>
+                    <div class="carSum">
+                        <div class="carSumLabel">
+                            商品总额
+                        </div>
+                        <div class="carSumLabel">
+                            ￥ {$order_carinfo['sum']}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="carCount">
+                <div class="carBalance">
+                    <div class="carBalanceLabel">
+                        应付总额
+                    </div>
+                    <div class="carBalanceNum">
+                        ￥ {$order_carinfo['sum']}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+{include file="public/footer" /}
+
+</body>
+<script src="__INDEX__/js/public/header.js"></script>
+<script src="__INDEX__/js/getorder/getorder.js"></script>
+
+</html>

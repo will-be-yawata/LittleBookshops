@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小书店</title>
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/public.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/header.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/nav.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/footer.css">
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/detail/detail.css">
+
+
+    <script src="__INDEX__/js/public/jquery.min.js"></script>
+    <script src="__INDEX__/js/index/sHover.min.js"></script>
+
+</head>
+<body>
+
+{include file="public/header"/}
+{include file="public/nav"/}
+
+<div class="content">
+    <div class="bestSell">
+        <div class="bestSellTitle">
+            热门推荐
+        </div>
+        <div class="bestSellBox">
+            <ul>
+                {foreach $bestsell as $data}
+                <li class="bestSellLi bestSellLiOn">
+                    <a href="{:url('Goodsdetail/goodsdetail',['goods_id'=>$data['goods_id']])}">
+                        <div class="bestSellImg">
+                            <img src="__ADMIN__/images/goods/{$data['goods_img']}">
+                        </div>
+                        <div class="bestSellText">
+                            {$data['goods_name']}
+                        </div>
+                        <div class="bestSellPrice">
+                            <span class="priceRed">￥{$data['goods_current_price']}</span>
+                            <span class="priceGray">￥{$data['goods_original_price']}</span>
+                        </div>
+
+                    </a>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+
+    <div class="detail">
+        <div class="detailContent">
+            <div class="detailImg">
+                <img src="__ADMIN__/images/goods/{$detail['goods_img']}">
+            </div>
+            <div class="detailInfo">
+                <div class="detailName">
+                    {$detail['goods_name']}
+                </div>
+                <div class="detailAttr">
+                    <div class="detailPriceOld">
+                        原&nbsp;&nbsp;&nbsp;价：
+                        <span class="detailPriceGray">
+                            ￥{$detail['goods_original_price']}
+                        </span>
+                    </div>
+                    <div class="detailPriceNew">
+                        现&nbsp;&nbsp;&nbsp;价：
+                        <span class="detailPriceRed">
+                            ￥{$detail['goods_current_price']}
+                        </span>
+                    </div>
+                    <div class="detailAuthor">
+                        作&nbsp;&nbsp;&nbsp;者： {$detail['goods_author']}
+                    </div>
+                    <div class="detailPublisher">
+                        出版社：{$detail['goods_press']}
+                    </div>
+                </div>
+                <div class="detailPurchase">
+
+                        <div class="buyNum">
+                            数&nbsp;&nbsp;&nbsp;量：
+                            <span class="buyNumAction">
+                                <a id="btnReduce" href="javascript:detailMinus();" class="iconfont btnReduce" title="减少">&#xe972;</a>
+                                <input id="buyNumInput" class="buyNumInput" type="text" value="1" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                <a id="btnAdd"  href="javascript:detailAdd();" class="iconfont btnAdd" title="增加">&#xe971;</a>
+                            </span>
+                            &nbsp;件
+                        </div>
+                        <div class="buyAction">
+                            <a href="javascript:joincar({$detail['goods_id']});" class="btnBuy"><i class="iconfont">&#xe8e8;</i> 加入购物车</a>
+                        </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="detailOther">
+            <div class="infobox">
+                <div class="infoTab">
+                    <div class="infoTabItem">
+                        图书介绍
+                    </div>
+                </div>
+                <div class="infoCont">
+                    <ul class="infoContUl">
+                        <li>作者： {$bookinfo->showapi_res_body->data->author}</li>
+                        <li>出版社： {$bookinfo->showapi_res_body->data->publisher}</li>
+                        <li>出版时间： {$bookinfo->showapi_res_body->data->pubdate}</li>
+                        <li>开本： {$bookinfo->showapi_res_body->data->format}</li>
+                        <li>页&nbsp;&nbsp;&nbsp;数： {$bookinfo->showapi_res_body->data->page}</li>
+                        <li>印刷时间： 无</li>
+                        <li>字数： 无</li>
+                        <li>装&nbsp;&nbsp;&nbsp;帧： {$bookinfo->showapi_res_body->data->binding}</li>
+                        <li>语&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种： 无</li>
+                        <li>版次： {$bookinfo->showapi_res_body->data->edition}</li>
+                        <li>印&nbsp;&nbsp;&nbsp;次： 无</li>
+                        <li>I&nbsp;&nbsp;S&nbsp;&nbsp;B&nbsp;&nbsp;N： {$bookinfo->showapi_res_body->data->isbn}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="infoTab">
+                    <div class="infoTabItem">
+                        内容简介
+                    </div>
+                </div>
+                <div class="infoCont">
+                    {$detail['goods_about_book']}
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="infoTab">
+                    <div class="infoTabItem">
+                        作者简介
+                    </div>
+                </div>
+                <div class="infoCont">
+                    {$detail['goods_about_author']}
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="infoTab">
+                    <div class="infoTabItem">
+                        目录
+                    </div>
+                </div>
+                <div class="infoCont">
+                    {$detail['goods_directory']}
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="infoTab">
+                    <div class="infoTabItem">
+                        价格说明
+                    </div>
+                </div>
+                <div class="infoCont">
+                    定价：为出版社全国统一定价；<br>
+                    现价：为商品的销售价，是您最终决定是否购买商品的依据；受系统缓存影响，最终价格以商品放入购物车后显示的价格为准；
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public/footer" /}
+
+</body>
+    <script src="__INDEX__/js/public/header.js"></script>
+    <script src="__INDEX__/js/goodsdetail/goodsdetail.js"></script>
+
+</html>

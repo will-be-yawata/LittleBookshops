@@ -1,0 +1,74 @@
+<form action="{:url('Goods/query')}" method="post" class="query_reseach">
+    <button type="submit" class="query_submit"><img src="__ADMIN__/images/system/search.png"></button>
+    <input type="text" name="query_text" placeholder="搜索...">
+</form>
+{volist name='list' id='list'}
+<div class="query_item">
+    <div class="query_header">{$list.goods_name}</div>
+    <div class="query_content">
+        <form>
+            <table border="1" class="query_table">
+                <tr>
+                    <td rowspan="2"><img class="query_img" src="__ADMIN__/images/goods/{$list.goods_img}"></td>
+                    <td colspan="2">本书目录</td>
+                    <td>关于作者</td>
+                    <td>关于本书</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <textarea class="query_text" id="d{$list.goods_id}">{$list.goods_directory}</textarea>
+                    </td>
+                    <td>
+                        <textarea class="query_text" id="a{$list.goods_id}">{$list.goods_about_author}</textarea>
+                    </td>
+                    <td>
+                        <textarea class="query_text" id="b{$list.goods_id}">{$list.goods_about_book}</textarea>
+                    </td>
+                    <script type="text/javascript">
+                        $(function(){
+                            UE.getEditor("a{$list.goods_id}", {
+                                initialFrameHeight:360,
+                                initialFrameWidth:300,
+                                readonly :true,
+                                wordCount:false
+                            });
+                            UE.getEditor("b{$list.goods_id}", {
+                                initialFrameHeight:360,
+                                initialFrameWidth:300,
+                                readonly : true,
+                                wordCount:false
+                            });
+                            UE.getEditor("d{$list.goods_id}", {
+                                initialFrameHeight:360,
+                                initialFrameWidth:300,
+                                readonly : true,
+                                wordCount:false
+                            });
+
+                        });
+                    </script>
+                </tr>
+                <tr>
+                    <td>《{$list.goods_name}》</td>
+                    <td>作者:{$list.goods_author}</td>
+                    <td>ISBN:{$list.goods_isbn}</td>
+                    <td>原价:￥{$list.goods_original_price}</td>
+                    <td>上架时间:{$list.goods_createtime}</td>
+                </tr>
+                <tr>
+                    <td>分类:{$list.label_name}</td>
+                    <td colspan="2">出版社:{$list.goods_press}</td>
+                    <td>现价:￥{$list.goods_current_price}</td>
+                    <td>更新时间:{$list.goods_updatatime}</td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+{/volist}
+{$page}
+<script>
+    $(function(){
+        $($(".goods_barHeader>li")[0]).attr("class","goods_active");
+    })
+</script>

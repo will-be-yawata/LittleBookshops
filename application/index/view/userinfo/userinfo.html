@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小书店</title>
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/public.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/header.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/nav.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/footer.css">
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/userInfo/userInfo.css">
+
+
+    <script src="__INDEX__/js/public/jquery.min.js"></script>
+    <script src="__INDEX__/js/index/sHover.min.js"></script>
+
+</head>
+<body>
+
+{include file="public/header"/}
+{include file="public/nav"/}
+<div class="content">
+    <div class="infoTitle">
+        <i class="iconfont">&#xe728;</i>
+        我的信息
+    </div>
+
+        <div class="userInfo">
+                <div class="infoBox">
+                    <div class="infoRow">
+                        <label>账号：</label>
+                        <input class="readOnly" type="text" value="{$res.user_id}" readonly>
+                    </div>
+                    <div class="infoRow">
+                        <label>昵称：</label>
+                        <input id="nickname" class="inputText" type="text" value="{$res.user_nickname}">
+                    </div>
+
+                </div>
+                <div class="infoBox">
+                    <div class="infoRow">
+                        <label>收货人：</label>
+                        <input id="consignee" class="inputText" type="text" value="{$res.user_name}">
+                    </div>
+                    <div class="infoRow">
+                        <label>手机号码：</label>
+                        <input id="consigneePhone" class="inputText" type="text" value="{$res.user_phone}">
+                    </div>
+                    <div class="infoRow">
+                        <label>收货地址：</label>
+                        <input id="address" class="inputText infoAddress" type="text" value="{$res.user_address}">
+                    </div>
+                </div>
+        </div>
+        <div class="userInfoFoot">
+            <a id="userInfoSubmit" class="infoSubmit">保存</a>
+        </div>
+
+</div>
+
+{include file="public/footer" /}
+
+</body>
+<script src="__INDEX__/js/public/header.js"></script>
+<script src="__INDEX__/js/userInfo/userInfo.js"></script>
+
+</html>

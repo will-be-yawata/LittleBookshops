@@ -1,0 +1,92 @@
+<form action="{:url('Goods/add')}" method="post" enctype="multipart/form-data" onsubmit="return addBtn(this);">
+    <table class="add_table">
+        <tr>
+            <td>书名:</td>
+            <td><input type="text" name="goods_name" placeholder="本书的名字是..."></td>
+        </tr>
+        <tr>
+            <td>类别:</td>
+            <td>
+                <select name="goods_label">
+                    {foreach $label as $k=>$v}
+                    <option value="{$v.label_parent},{$v.label_id}">{$v.label_name}</option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>封面:</td>
+            <td><input type="file" name="goods_img"></td>
+        </tr>
+        <tr>
+            <td>原价:</td>
+            <td><input type="text" name="goods_original_price" placeholder="本书原价是..."></td>
+        </tr>
+        <tr>
+            <td>现价:</td>
+            <td><input type="text" name="goods_current_price" placeholder="本书现价是..."></td>
+        </tr>
+        <tr>
+            <td>作者:</td>
+            <td><input type="text" name="goods_author" placeholder="本书的作者是..."></td>
+        </tr>
+        <tr>
+            <td>出版社:</td>
+            <td><input type="text" name="goods_press" placeholder="本书的出版社是..."></td>
+        </tr>
+        <tr>
+            <td>目录:</td>
+            <td>
+                <input type='hidden' name='goods_directory' id='goods_directory'>
+                <script type="text/plain" id="add_directory"></script>
+                <script type="text/javascript">
+                    UE.getEditor('add_directory', {
+                        initialFrameHeight:70,
+                        initialFrameWidth:200
+                    });
+                </script>
+            </td>
+        </tr>
+        <tr>
+            <td>作者简介:</td>
+            <td>
+                <input type='hidden' name='goods_about_author' id='goods_about_author'>
+                <script type="text/plain" id="add_about_author"></script>
+                <script type="text/javascript">
+                    UE.getEditor('add_about_author', {
+                        initialFrameHeight:70,
+                        initialFrameWidth:200
+                    });
+                </script>
+            </td>
+        </tr>
+        <tr>
+            <td>内容简介:</td>
+            <td>
+                <input type='hidden' name='goods_about_book' id='goods_about_book'>
+                <script type="text/plain" id="add_about_book"></script>
+                <script type="text/javascript">
+                    UE.getEditor('add_about_book', {
+                        initialFrameHeight:70,
+                        initialFrameWidth:200
+                    });
+                    /*
+                     *  <textarea name="goods_about_book" id="add_about_book" placeholder="简单说一下本书的内容..."></textarea>
+                     * */
+                </script>
+            </td>
+        </tr>
+        <tr>
+            <td>ISBN:</td>
+            <td><input type="number" name="goods_isbn" placeholder="本书的ISBN是..."></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" value="添加" class="addSubmit"></td>
+        </tr>
+    </table>
+</form>
+<script>
+    $(function(){
+        $($(".goods_barHeader>li")[1]).attr("class","goods_active");
+    });
+</script>

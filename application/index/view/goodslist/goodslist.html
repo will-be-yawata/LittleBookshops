@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小书店</title>
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/public.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/header.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/nav.css">
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/public/footer.css">
+
+    <link  rel="stylesheet" type="text/css" href="__INDEX__/css/list/list.css">
+
+
+    <script src="__INDEX__/js/public/jquery.min.js"></script>
+    <script src="__INDEX__/js/index/sHover.min.js"></script>
+    <script src="__INDEX__/js/public/sHover.js"></script>
+
+</head>
+<body>
+
+{include file="public/header"/}
+{include file="public/nav"/}
+
+<div class="content">
+    <div class="goods">
+        <div class="goodsList">
+            <ul class="goodsListUl">
+                {foreach $goodslist as $data}
+                <li class="goodsListUlLi">
+                    <div class="sHoverItem">
+                        <div class="goodsImg">
+                            <img src="__ADMIN__/images/goods/{$data['goods_img']}">
+                        </div>
+                        <div class="sIntroATitle">
+                            {$data['goods_name']}
+                        </div>
+                        <div class="rushedPrice">
+                            <span class="priceRed">￥{$data['goods_current_price']}</span><span class="priceGray">￥{$data['goods_original_price']}</span>
+                        </div>
+                        <div class="sIntro">
+                            <div class="sIntroA">
+                                <a  href="{:url('Goodsdetail/goodsdetail',['goods_id'=>$data['goods_id']])}" class="sIntroADetail">
+                                    <i class="iconfont">&#xe8e6;</i>
+                                    <span>查看详情</span>
+                                </a>
+                                <a href="javascript:joincar({$data['goods_id']});"  class="sIntroADetail">
+                                    <i class="iconfont">&#xe8e8;</i>
+                                    加入购物车
+                                </a>
+
+                            </div>
+
+                            <div class="sIntroInfo">
+                                <p>作者：{$data['goods_author']}</p>
+                                <p>{$data['goods_press']}</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+        <div class="goodsPage">
+            {$goodslist->render()}
+        </div>
+    </div>
+
+    <div class="bestSell">
+        <div class="bestSellTitle">
+            重磅推荐
+        </div>
+        <div class="bestSellBox">
+            <ul>
+                {foreach $bestsell as $data}
+                <li class="bestSellLi bestSellLiOn">
+                    <a href="{:url('Goodsdetail/goodsdetail',['goods_id'=>$data['goods_id']])}">
+                        <div class="bestSellImg">
+                            <img src="__ADMIN__/images/goods/{$data['goods_img']}">
+                        </div>
+                        <div class="bestSellText">
+                            {$data['goods_name']}
+                        </div>
+                        <div class="bestSellPrice">
+                            <span class="priceRed">￥{$data['goods_current_price']}</span>
+                            <span class="priceGray">￥{$data['goods_original_price']}</span>
+                        </div>
+
+                    </a>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{include file="public/footer" /}
+
+</body>
+<script src="__INDEX__/js/public/header.js"></script>
+<script src="__INDEX__/js/goodslist/goodslist.js"></script>
+
+</html>
