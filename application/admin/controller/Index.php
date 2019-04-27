@@ -17,6 +17,6 @@ class Index{
             }
         }
         if($admin->check_login()) return view();
-        else return view("Login/login");
+        else return view("login/login");
     }
 }

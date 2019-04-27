@@ -29,8 +29,10 @@
                                     我的购物车
                                 </a>
                             </li>
+
                             <li class="sideMainSubmenuLi">
-                                <a href="javascript:headerOrderList();" class="sideMainSubmenuLiA">
+                                <a href="javascript:headerOrderList('{:url(`Orderlist/orderlist`)}');" class="sideMainSubmenuLiA">
+
                                     我的订单
                                 </a>
                             </li>
@@ -133,7 +135,7 @@
                         <div class="headerTopSearch">
                             <ul class="headerTopSearchUl">
                                 {foreach $topsearch as $data}
-                                <li class="headerTopSearchUlList"><a href="http://localhost:88/LittleBookshops/public/index/goodslist/goodslist.html?type=2&info={$data['top_search_text']}" class="headerTopSearchUlListA">{$data['top_search_text']}</a></li>
+                                <li class="headerTopSearchUlList"><a href="/LittleBookshops/public/index/goodslist/goodslist.html?type=2&info={$data['top_search_text']}" class="headerTopSearchUlListA">{$data['top_search_text']}</a></li>
                                 {/foreach}
                             </ul>
                         </div>
@@ -163,3 +165,24 @@
         </div>
     </div>
 </header>
+<script>
+alert(322354353)
+function headerOrderList(url_2){
+$.ajax({
+        type: "POST",
+        data: {},
+        //url: "{:url('Index/check_user_state')}",
+        url: "/LittleBookshops/public/index.php/index/index/check_user_state.html",
+        success: function (data) {
+            if (data) {
+                window.location.href = {:url('orderlist/orderlist')};
+            }else{
+                alert("您需要先登录！");
+            }
+        },
+        error: function () {
+            alert("进入购物车页面 ajax 未成功");
+        }
+    })
+}
+</script>
