@@ -31,7 +31,7 @@
                             </li>
 
                             <li class="sideMainSubmenuLi">
-                                <a href="javascript:headerOrderList('{:url(`Orderlist/orderlist`)}');" class="sideMainSubmenuLiA">
+                                <a href="{:url('orderlist/orderlist')}" class="sideMainSubmenuLiA">
 
                                     我的订单
                                 </a>
@@ -166,7 +166,6 @@
     </div>
 </header>
 <script>
-alert(322354353)
 function headerOrderList(url_2){
 $.ajax({
         type: "POST",
