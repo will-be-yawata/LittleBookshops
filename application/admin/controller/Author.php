@@ -8,12 +8,17 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;
-
-session_start();
+use app\admin\model\Admin;
+use think\Session;
+use app\admin\model\ActiveCss;
+Session::start();
 
 class Author extends Controller{
     public function author(){
-        $author_list=db('author')->paginate(3);
+        echo (new ActiveCss())->shift("author");
+        $admin=new Admin();
+        if(!$admin->check_login()) return view("Login/login");
+        $author_list=db('author')->paginate(8);
         $this->assign('a_list',$author_list);
         return view();
     }

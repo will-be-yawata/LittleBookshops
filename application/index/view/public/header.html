@@ -31,7 +31,7 @@
                             </li>
 
                             <li class="sideMainSubmenuLi">
-                                <a href="{:url('orderlist/orderlist')}" class="sideMainSubmenuLiA">
+                                <a href="javascript:headerOrderList();" class="sideMainSubmenuLiA">
 
                                     我的订单
                                 </a>
@@ -165,23 +165,3 @@
         </div>
     </div>
 </header>
-<script>
-function headerOrderList(url_2){
-$.ajax({
-        type: "POST",
-        data: {},
-        //url: "{:url('Index/check_user_state')}",
-        url: "/LittleBookshops/public/index.php/index/index/check_user_state.html",
-        success: function (data) {
-            if (data) {
-                window.location.href = {:url('orderlist/orderlist')};
-            }else{
-                alert("您需要先登录！");
-            }
-        },
-        error: function () {
-            alert("进入购物车页面 ajax 未成功");
-        }
-    })
-}
-</script>

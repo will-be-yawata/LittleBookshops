@@ -8,13 +8,17 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;
-
-session_start();
+use app\admin\model\Admin;
+use think\Session;
+use app\admin\model\ActiveCss;
+Session::start();
 
 class Order extends Controller{
     public function Order(){
-
-        $user_list=db('order')->paginate(2);
+        echo (new ActiveCss())->shift("order");
+        $admin=new Admin();
+        if(!$admin->check_login()) return view("Login/login");
+        $user_list=db('order')->paginate(8);
         $this->assign('list',$user_list);
 
 
